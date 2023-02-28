@@ -3,21 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{D2ABAB84-BF74-430A-B69E-9DC6D40DDA17}") = "WideWorldImportersMDP", "WideWorldImportersMDP\WideWorldImportersMDP.dwproj", "{9D6D072C-2043-4B83-9E0F-19CA13F5AD16}"
+Project("{D2ABAB84-BF74-430A-B69E-9DC6D40DDA17}") = "WideWorldImportersMD", "WideWorldImportersMD.dwproj", "{341C4F56-9850-463F-AD99-21C6AD0F5812}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Development|Default = Development|Default
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9D6D072C-2043-4B83-9E0F-19CA13F5AD16}.Development|Default.ActiveCfg = Development
-		{9D6D072C-2043-4B83-9E0F-19CA13F5AD16}.Development|Default.Build.0 = Development
-		{9D6D072C-2043-4B83-9E0F-19CA13F5AD16}.Development|Default.Deploy.0 = Development
+		{341C4F56-9850-463F-AD99-21C6AD0F5812}.Development|Default.ActiveCfg = Development
+		{341C4F56-9850-463F-AD99-21C6AD0F5812}.Development|Default.Build.0 = Development
+		{341C4F56-9850-463F-AD99-21C6AD0F5812}.Development|Default.Deploy.0 = Development
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {3275427D-9745-448A-813D-924F7C5DE264}
+		SolutionGuid = {32BFBB32-E053-4289-9160-4CB8C07C0316}
 	EndGlobalSection
 EndGlobal
