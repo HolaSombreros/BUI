@@ -1252,7 +1252,19 @@ VISIBLE = 1  ;
 CREATE MEMBER CURRENTCUBE.[Measures].[Avg sales per customer]
 AS AVG([Bill To Customer].[Customer].members, [Measures].[Quantity]), 
 FORMAT_STRING = "Standard", 
-VISIBLE = 1 ,  ASSOCIATED_MEASURE_GROUP = 'Sale'; </Text>
+VISIBLE = 1 ,  ASSOCIATED_MEASURE_GROUP = 'Sale'  ;  
+CREATE MEMBER CURRENTCUBE.[Measures].[Money spent by a customer]
+ AS SUM([Bill To Customer].[Customer].members, [Measures].[Total Including Tax]), 
+FORMAT_STRING = "Currency", 
+VISIBLE = 1 ,  ASSOCIATED_MEASURE_GROUP = 'Sale'  ; 
+CREATE MEMBER CURRENTCUBE.[Stock Item].[Brand].[Northwind Stock Items]
+ AS SUM([Stock Item].[Brand].&amp;[Northwind], [Measures].[Quantity]), 
+FORMAT_STRING = "0", 
+VISIBLE = 1 ,  ASSOCIATED_MEASURE_GROUP = 'Sale'  ; 
+CREATE MEMBER CURRENTCUBE.[Measures].[Items per Supplier]
+ AS CoalesceEmpty(Sum([Stock Item].[Stock Item].members,[Measures].[Purchase Count]),0), 
+FORMAT_STRING = "0", 
+VISIBLE = 1 ,  ASSOCIATED_MEASURE_GROUP = 'Purchase'  ; </Text>
         </Command>
       </Commands>
     </MdxScript>
