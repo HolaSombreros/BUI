@@ -1,4 +1,4 @@
-﻿<DataSourceView xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:ddl100_100="http://schemas.microsoft.com/analysisservices/2008/engine/100/100" xmlns:ddl200="http://schemas.microsoft.com/analysisservices/2010/engine/200" xmlns:ddl200_200="http://schemas.microsoft.com/analysisservices/2010/engine/200/200" xmlns:ddl300="http://schemas.microsoft.com/analysisservices/2011/engine/300" xmlns:ddl300_300="http://schemas.microsoft.com/analysisservices/2011/engine/300/300" xmlns:ddl400="http://schemas.microsoft.com/analysisservices/2012/engine/400" xmlns:ddl400_400="http://schemas.microsoft.com/analysisservices/2012/engine/400/400" xmlns:ddl500="http://schemas.microsoft.com/analysisservices/2013/engine/500" xmlns:ddl500_500="http://schemas.microsoft.com/analysisservices/2013/engine/500/500" xmlns:dwd="http://schemas.microsoft.com/DataWarehouse/Designer/1.0" dwd:design-time-name="ae265177-2f01-4a80-adb9-46d4f2913f08" xmlns="http://schemas.microsoft.com/analysisservices/2003/engine">
+﻿<DataSourceView xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:ddl100_100="http://schemas.microsoft.com/analysisservices/2008/engine/100/100" xmlns:ddl200="http://schemas.microsoft.com/analysisservices/2010/engine/200" xmlns:ddl200_200="http://schemas.microsoft.com/analysisservices/2010/engine/200/200" xmlns:ddl300="http://schemas.microsoft.com/analysisservices/2011/engine/300" xmlns:ddl300_300="http://schemas.microsoft.com/analysisservices/2011/engine/300/300" xmlns:ddl400="http://schemas.microsoft.com/analysisservices/2012/engine/400" xmlns:ddl400_400="http://schemas.microsoft.com/analysisservices/2012/engine/400/400" xmlns:ddl500="http://schemas.microsoft.com/analysisservices/2013/engine/500" xmlns:ddl500_500="http://schemas.microsoft.com/analysisservices/2013/engine/500/500" xmlns:dwd="http://schemas.microsoft.com/DataWarehouse/Designer/1.0" dwd:design-time-name="3275ac73-ded8-49fb-a0c7-21b82b7bb5cf" xmlns="http://schemas.microsoft.com/analysisservices/2003/engine">
   <ID>Wide World Importers DW</ID>
   <Name>Wide World Importers DW</Name>
   <CreatedTimestamp>0001-01-01T00:00:00Z</CreatedTimestamp>
@@ -27,9 +27,9 @@
             <Name>_ALL_TABLES_</Name>
             <DiagramLayout>
               <dds>
-                <diagram fontclsid="{0BE35203-8F91-11CE-9DE3-00AA004BB851}" mouseiconclsid="{0BE35204-8F91-11CE-9DE3-00AA004BB851}" defaultlayout="MSDDS.Rectilinear" defaultlineroute="MSDDS.Rectilinear" version="7" nextobject="38" scale="100" pagebreakanchorx="0" pagebreakanchory="0" pagebreaksizex="0" pagebreaksizey="0" scrollleft="-11713" scrolltop="-5000" gridx="150" gridy="150" marginx="5000" marginy="5000" zoom="94" x="45641" y="32888" backcolor="2039583" defaultpersistence="2" PrintPageNumbersMode="3" PrintMarginTop="0" PrintMarginBottom="635" PrintMarginLeft="0" PrintMarginRight="0" marqueeselectionmode="0" mousepointer="0" snaptogrid="0" autotypeannotation="1" showscrollbars="0" viewpagebreaks="0" donotforceconnectorsbehindshapes="1" backpictureclsid="{00000000-0000-0000-0000-000000000000}">
+                <diagram fontclsid="{0BE35203-8F91-11CE-9DE3-00AA004BB851}" mouseiconclsid="{0BE35204-8F91-11CE-9DE3-00AA004BB851}" defaultlayout="MSDDS.Rectilinear" defaultlineroute="MSDDS.Rectilinear" version="7" nextobject="38" scale="100" pagebreakanchorx="0" pagebreakanchory="0" pagebreaksizex="0" pagebreaksizey="0" scrollleft="-11713" scrolltop="-5000" gridx="150" gridy="150" marginx="5000" marginy="5000" zoom="94" x="23834" y="12192" backcolor="2039583" defaultpersistence="2" PrintPageNumbersMode="3" PrintMarginTop="0" PrintMarginBottom="635" PrintMarginLeft="0" PrintMarginRight="0" marqueeselectionmode="0" mousepointer="0" snaptogrid="0" autotypeannotation="1" showscrollbars="1" viewpagebreaks="0" donotforceconnectorsbehindshapes="1" backpictureclsid="{00000000-0000-0000-0000-000000000000}">
                   <font>
-                    <ddsxmlobjectstreamwrapper binary="01000000900144420100065461686f6d61" />
+                    <ddsxmlobjectstreamwrapper binary="010000009001b0300100065461686f6d61" />
                   </font>
                   <mouseicon>
                     <ddsxmlobjectstreamwrapper binary="6c74000000000000" />
@@ -353,7 +353,7 @@
             <xs:element name="Dimension_City" msprop:QueryBuilder="SpecificQueryBuilder" msprop:IsLogical="True" msprop:design-time-name="90a4dc8b-6ca1-4759-ba9d-f44ae595e225" msprop:QueryDefinition="SELECT * FROM [WideWorldImportersDW].[Dimension].[City]" msprop:FriendlyName="City" msprop:TableType="View" msprop:DbTableName="City">
               <xs:complexType>
                 <xs:sequence>
-                  <xs:element name="City_x0020_Key" msprop:FriendlyName="City Key" msprop:DbColumnName="City Key" msprop:design-time-name="18760062-e0fd-444c-8413-c95844737298" type="xs:int" minOccurs="0" />
+                  <xs:element name="City_x0020_Key" msprop:FriendlyName="City Key" msprop:DbColumnName="City Key" msprop:design-time-name="18760062-e0fd-444c-8413-c95844737298" type="xs:int" />
                   <xs:element name="WWI_x0020_City_x0020_ID" msprop:FriendlyName="WWI City ID" msprop:DbColumnName="WWI City ID" msprop:design-time-name="3467b319-ab67-4d89-bcc0-7ff2d6f8edc3" type="xs:int" minOccurs="0" />
                   <xs:element name="City" msprop:FriendlyName="City" msprop:DbColumnName="City" msprop:design-time-name="23c36b63-c1ad-4d1e-8d87-7b44dcd4d3ff" minOccurs="0">
                     <xs:simpleType>
@@ -415,7 +415,7 @@
             <xs:element name="Dimension_Customer" msprop:QueryBuilder="SpecificQueryBuilder" msprop:IsLogical="True" msprop:design-time-name="978ed90b-f89e-4534-92de-e220ea6d1548" msprop:QueryDefinition="SELECT * FROM [WideWorldImportersDW].[Dimension].[Customer]" msprop:FriendlyName="Customer" msprop:TableType="View" msprop:DbTableName="Customer">
               <xs:complexType>
                 <xs:sequence>
-                  <xs:element name="Customer_x0020_Key" msprop:FriendlyName="Customer Key" msprop:DbColumnName="Customer Key" msprop:design-time-name="5ef55362-8f7e-403d-9750-b0e5753bfd9a" type="xs:int" minOccurs="0" />
+                  <xs:element name="Customer_x0020_Key" msprop:FriendlyName="Customer Key" msprop:DbColumnName="Customer Key" msprop:design-time-name="5ef55362-8f7e-403d-9750-b0e5753bfd9a" type="xs:int" />
                   <xs:element name="WWI_x0020_Customer_x0020_ID" msprop:FriendlyName="WWI Customer ID" msprop:DbColumnName="WWI Customer ID" msprop:design-time-name="c771786c-302e-411d-9bb7-47f6d329b455" type="xs:int" minOccurs="0" />
                   <xs:element name="Customer" msprop:FriendlyName="Customer" msprop:DbColumnName="Customer" msprop:design-time-name="deb7235d-cd0f-4482-a8bc-98c3a2bbe7a7" minOccurs="0">
                     <xs:simpleType>
@@ -465,10 +465,10 @@
                 </xs:sequence>
               </xs:complexType>
             </xs:element>
-            <xs:element name="Dimension_Date" msprop:QueryBuilder="SpecificQueryBuilder" msprop:IsLogical="True" msprop:design-time-name="8daff56b-67dc-467b-a372-e6c3740c11b1" msprop:QueryDefinition="SELECT * FROM [WideWorldImportersDW].[Dimension].[Date]" msprop:FriendlyName="Date" msprop:TableType="View" msprop:DbTableName="Date">
+            <xs:element name="Dimension_Date" msprop:QueryBuilder="SpecificQueryBuilder" msprop:design-time-name="8daff56b-67dc-467b-a372-e6c3740c11b1" msprop:FriendlyName="Date" msprop:DbSchemaName="Dimension" msprop:TableType="Table" msprop:DbTableName="Date">
               <xs:complexType>
                 <xs:sequence>
-                  <xs:element name="Date" msprop:FriendlyName="Date" msprop:DbColumnName="Date" msprop:design-time-name="b46412de-e1dd-4aeb-ab81-983cbf665ded" type="xs:dateTime" minOccurs="0" />
+                  <xs:element name="Date" msprop:FriendlyName="Date" msprop:DbColumnName="Date" msprop:design-time-name="b46412de-e1dd-4aeb-ab81-983cbf665ded" type="xs:dateTime" />
                   <xs:element name="Day_x0020_Number" msprop:FriendlyName="Day Number" msprop:DbColumnName="Day Number" msprop:design-time-name="5e120f86-1510-4d0a-97e0-5ec5bce6ae5b" type="xs:int" minOccurs="0" />
                   <xs:element name="Day" msprop:FriendlyName="Day" msprop:DbColumnName="Day" msprop:design-time-name="8f59d049-a3b5-491f-8db8-c1eb2b4e8ee8" minOccurs="0">
                     <xs:simpleType>
@@ -524,13 +524,20 @@
                     </xs:simpleType>
                   </xs:element>
                   <xs:element name="ISO_x0020_Week_x0020_Number" msprop:FriendlyName="ISO Week Number" msprop:DbColumnName="ISO Week Number" msprop:design-time-name="a247c583-395f-40dd-8c24-947b40698a16" type="xs:int" minOccurs="0" />
+                  <xs:element name="Quarter" msdata:ReadOnly="true" msprop:Description="Year is divied by quarters" msprop:design-time-name="28eba9a2-930a-4a80-86b4-24ee444944a6" msprop:IsLogical="True" msprop:DbColumnName="Quarter" msprop:ComputedColumnExpression="Convert(char(4), Year(Date)) +&#xD;&#xA;Case&#xD;&#xA;when month(Date) Between 1 and 3 then 'Q1'&#xD;&#xA;when month(Date) Between 4 and 6 then 'Q2'&#xD;&#xA;when month(Date) Between 7 and 9 then 'Q3'&#xD;&#xA;Else 'Q4'&#xD;&#xA;End" minOccurs="0">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:maxLength value="6" />
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
                 </xs:sequence>
               </xs:complexType>
             </xs:element>
             <xs:element name="Dimension_Employee" msprop:QueryBuilder="SpecificQueryBuilder" msprop:IsLogical="True" msprop:design-time-name="871c9039-164d-405b-a957-fe4fadb419f9" msprop:QueryDefinition="SELECT * FROM [WideWorldImportersDW].[Dimension].[Employee]" msprop:FriendlyName="Employee" msprop:TableType="View" msprop:DbTableName="Employee">
               <xs:complexType>
                 <xs:sequence>
-                  <xs:element name="Employee_x0020_Key" msprop:FriendlyName="Employee Key" msprop:DbColumnName="Employee Key" msprop:design-time-name="9ed0af56-dfa5-42c6-b327-3901a8bb5875" type="xs:int" minOccurs="0" />
+                  <xs:element name="Employee_x0020_Key" msprop:FriendlyName="Employee Key" msprop:DbColumnName="Employee Key" msprop:design-time-name="9ed0af56-dfa5-42c6-b327-3901a8bb5875" type="xs:int" />
                   <xs:element name="WWI_x0020_Employee_x0020_ID" msprop:FriendlyName="WWI Employee ID" msprop:DbColumnName="WWI Employee ID" msprop:design-time-name="6fa181c8-bf76-4c7a-8e21-b45edb00f38f" type="xs:int" minOccurs="0" />
                   <xs:element name="Employee" msprop:FriendlyName="Employee" msprop:DbColumnName="Employee" msprop:design-time-name="b008a14f-9578-42f7-8dec-df4515b62863" minOccurs="0">
                     <xs:simpleType>
@@ -557,7 +564,7 @@
             <xs:element name="Dimension_Stock_x0020_Item" msprop:QueryBuilder="SpecificQueryBuilder" msprop:IsLogical="True" msprop:design-time-name="55e208bc-6022-410d-90c7-278b82ec887f" msprop:QueryDefinition="SELECT * FROM [WideWorldImportersDW].[Dimension].[Stock Item]" msprop:FriendlyName="Stock Item" msprop:TableType="View" msprop:DbTableName="Stock Item">
               <xs:complexType>
                 <xs:sequence>
-                  <xs:element name="Stock_x0020_Item_x0020_Key" msprop:FriendlyName="Stock Item Key" msprop:DbColumnName="Stock Item Key" msprop:design-time-name="bcfd8c38-34a4-4a97-9c9d-a96b51243d4f" type="xs:int" minOccurs="0" />
+                  <xs:element name="Stock_x0020_Item_x0020_Key" msprop:FriendlyName="Stock Item Key" msprop:DbColumnName="Stock Item Key" msprop:design-time-name="bcfd8c38-34a4-4a97-9c9d-a96b51243d4f" type="xs:int" />
                   <xs:element name="WWI_x0020_Stock_x0020_Item_x0020_ID" msprop:FriendlyName="WWI Stock Item ID" msprop:DbColumnName="WWI Stock Item ID" msprop:design-time-name="4d899c90-c6af-4d24-b0ac-6b08eca29783" type="xs:int" minOccurs="0" />
                   <xs:element name="Stock_x0020_Item" msprop:FriendlyName="Stock Item" msprop:DbColumnName="Stock Item" msprop:design-time-name="4b86df54-b290-4f25-90a8-c70224d37838" minOccurs="0">
                     <xs:simpleType>
@@ -625,7 +632,7 @@
             <xs:element name="Dimension_Supplier" msprop:QueryBuilder="SpecificQueryBuilder" msprop:IsLogical="True" msprop:design-time-name="b72e4422-c1ea-4293-91ee-fd6e2721ea6c" msprop:QueryDefinition="SELECT * FROM [WideWorldImportersDW].[Dimension].[Supplier]" msprop:FriendlyName="Supplier" msprop:TableType="View" msprop:DbTableName="Supplier">
               <xs:complexType>
                 <xs:sequence>
-                  <xs:element name="Supplier_x0020_Key" msprop:FriendlyName="Supplier Key" msprop:DbColumnName="Supplier Key" msprop:design-time-name="7549bf65-c9a9-4a26-b91d-b01c39df998c" type="xs:int" minOccurs="0" />
+                  <xs:element name="Supplier_x0020_Key" msprop:FriendlyName="Supplier Key" msprop:DbColumnName="Supplier Key" msprop:design-time-name="7549bf65-c9a9-4a26-b91d-b01c39df998c" type="xs:int" />
                   <xs:element name="WWI_x0020_Supplier_x0020_ID" msprop:FriendlyName="WWI Supplier ID" msprop:DbColumnName="WWI Supplier ID" msprop:design-time-name="26cf9c5e-83cc-409a-ac32-441df3aa407f" type="xs:int" minOccurs="0" />
                   <xs:element name="Supplier" msprop:FriendlyName="Supplier" msprop:DbColumnName="Supplier" msprop:design-time-name="f08950a0-76f8-4b43-9756-4ab2628a9fb8" minOccurs="0">
                     <xs:simpleType>
@@ -672,8 +679,8 @@
             <xs:element name="Fact_Purchase" msprop:QueryBuilder="SpecificQueryBuilder" msprop:IsLogical="True" msprop:design-time-name="10cde8cb-cb20-412e-b08f-624fad414f1e" msprop:QueryDefinition="SELECT * FROM [WideWorldImportersDW].[Fact].[Purchase]" msprop:FriendlyName="Purchase" msprop:TableType="View" msprop:DbTableName="Purchase">
               <xs:complexType>
                 <xs:sequence>
-                  <xs:element name="Purchase_x0020_Key" msdata:ReadOnly="true" msdata:AutoIncrement="true" msprop:FriendlyName="Purchase Key" msprop:DbColumnName="Purchase Key" msprop:design-time-name="9bfe7920-fcdf-4831-89dd-253835334796" type="xs:long" minOccurs="0" />
-                  <xs:element name="Date_x0020_Key" msprop:FriendlyName="Date Key" msprop:DbColumnName="Date Key" msprop:design-time-name="3c526e5c-5158-41fa-bbf8-73042e61fda0" type="xs:dateTime" minOccurs="0" />
+                  <xs:element name="Purchase_x0020_Key" msdata:ReadOnly="true" msdata:AutoIncrement="true" msprop:FriendlyName="Purchase Key" msprop:DbColumnName="Purchase Key" msprop:design-time-name="9bfe7920-fcdf-4831-89dd-253835334796" type="xs:long" />
+                  <xs:element name="Date_x0020_Key" msprop:FriendlyName="Date Key" msprop:DbColumnName="Date Key" msprop:design-time-name="3c526e5c-5158-41fa-bbf8-73042e61fda0" type="xs:dateTime" />
                   <xs:element name="Supplier_x0020_Key" msprop:FriendlyName="Supplier Key" msprop:DbColumnName="Supplier Key" msprop:design-time-name="31200837-9470-4f1f-82cd-d069a71af306" type="xs:int" minOccurs="0" />
                   <xs:element name="Stock_x0020_Item_x0020_Key" msprop:FriendlyName="Stock Item Key" msprop:DbColumnName="Stock Item Key" msprop:design-time-name="cea7a0cf-ae53-48c3-8f3e-a31c8a4cc59b" type="xs:int" minOccurs="0" />
                   <xs:element name="WWI_x0020_Purchase_x0020_Order_x0020_ID" msprop:FriendlyName="WWI Purchase Order ID" msprop:DbColumnName="WWI Purchase Order ID" msprop:design-time-name="5259a17b-4843-43e2-8758-bd48e67a50c1" type="xs:int" minOccurs="0" />
@@ -695,12 +702,12 @@
             <xs:element name="Fact_Sale" msprop:QueryBuilder="SpecificQueryBuilder" msprop:IsLogical="True" msprop:design-time-name="567713ae-fe2c-4f44-9b2b-0bc79d85df18" msprop:QueryDefinition="SELECT * FROM [WideWorldImportersDW].[Fact].[Sale]" msprop:FriendlyName="Sale" msprop:TableType="View" msprop:DbTableName="Sale">
               <xs:complexType>
                 <xs:sequence>
-                  <xs:element name="Sale_x0020_Key" msdata:ReadOnly="true" msdata:AutoIncrement="true" msprop:FriendlyName="Sale Key" msprop:DbColumnName="Sale Key" msprop:design-time-name="bb1bf4f1-6cb6-452e-a07a-5290d06e4109" type="xs:long" minOccurs="0" />
+                  <xs:element name="Sale_x0020_Key" msdata:ReadOnly="true" msdata:AutoIncrement="true" msprop:FriendlyName="Sale Key" msprop:DbColumnName="Sale Key" msprop:design-time-name="bb1bf4f1-6cb6-452e-a07a-5290d06e4109" type="xs:long" />
                   <xs:element name="City_x0020_Key" msprop:FriendlyName="City Key" msprop:DbColumnName="City Key" msprop:design-time-name="16d64c08-73a0-49c9-b025-158d19544ddf" type="xs:int" minOccurs="0" />
                   <xs:element name="Customer_x0020_Key" msprop:FriendlyName="Customer Key" msprop:DbColumnName="Customer Key" msprop:design-time-name="e26cbd14-f5fe-4af1-bf86-fe924a5a6db7" type="xs:int" minOccurs="0" />
                   <xs:element name="Bill_x0020_To_x0020_Customer_x0020_Key" msprop:FriendlyName="Bill To Customer Key" msprop:DbColumnName="Bill To Customer Key" msprop:design-time-name="5454bae5-5fbb-4930-b5f1-fe1fa82a9f70" type="xs:int" minOccurs="0" />
                   <xs:element name="Stock_x0020_Item_x0020_Key" msprop:FriendlyName="Stock Item Key" msprop:DbColumnName="Stock Item Key" msprop:design-time-name="598f44aa-2790-44c4-9617-8a7ad55ee290" type="xs:int" minOccurs="0" />
-                  <xs:element name="Invoice_x0020_Date_x0020_Key" msprop:FriendlyName="Invoice Date Key" msprop:DbColumnName="Invoice Date Key" msprop:design-time-name="30c320b8-918c-4e7b-9548-8f6c847238ac" type="xs:dateTime" minOccurs="0" />
+                  <xs:element name="Invoice_x0020_Date_x0020_Key" msprop:FriendlyName="Invoice Date Key" msprop:DbColumnName="Invoice Date Key" msprop:design-time-name="30c320b8-918c-4e7b-9548-8f6c847238ac" type="xs:dateTime" />
                   <xs:element name="Delivery_x0020_Date_x0020_Key" msprop:FriendlyName="Delivery Date Key" msprop:DbColumnName="Delivery Date Key" msprop:design-time-name="1996b5c9-3f19-4c28-9b7e-c318e90ce7cb" type="xs:dateTime" minOccurs="0" />
                   <xs:element name="Salesperson_x0020_Key" msprop:FriendlyName="Salesperson Key" msprop:DbColumnName="Salesperson Key" msprop:design-time-name="1cbdc2d7-21ab-43d2-b3eb-758f0a29f964" type="xs:int" minOccurs="0" />
                   <xs:element name="WWI_x0020_Invoice_x0020_ID" msprop:FriendlyName="WWI Invoice ID" msprop:DbColumnName="WWI Invoice ID" msprop:design-time-name="0c7977d3-fa21-4b66-a590-4c266d72861b" type="xs:int" minOccurs="0" />
@@ -741,7 +748,7 @@
           <xs:selector xpath=".//Dimension_Customer" />
           <xs:field xpath="Customer_x0020_Key" />
         </xs:unique>
-        <xs:unique name="Dimension_Date_Constraint1" msdata:ConstraintName="Constraint1" msprop:IsLogical="True" msdata:PrimaryKey="true">
+        <xs:unique name="Dimension_Date_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
           <xs:selector xpath=".//Dimension_Date" />
           <xs:field xpath="Date" />
         </xs:unique>
