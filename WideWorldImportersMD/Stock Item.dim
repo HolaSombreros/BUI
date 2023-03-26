@@ -533,6 +533,21 @@
           <Name>Stock Item</Name>
           <SourceAttributeID>Stock Item</SourceAttributeID>
         </Level>
+        <Level dwd:design-time-name="f036ebb4-0872-40be-b906-3019821184f5">
+          <ID>Color</ID>
+          <Name>Color</Name>
+          <SourceAttributeID>Color</SourceAttributeID>
+        </Level>
+        <Level dwd:design-time-name="fa2760f9-3d52-4e15-bf17-33dff7280f79">
+          <ID>Size</ID>
+          <Name>Size</Name>
+          <SourceAttributeID>Size</SourceAttributeID>
+        </Level>
+        <Level dwd:design-time-name="33bc4a9e-b099-4a0c-b181-991949e55e7f">
+          <ID>Brand</ID>
+          <Name>Brand</Name>
+          <SourceAttributeID>Brand</SourceAttributeID>
+        </Level>
       </Levels>
     </Hierarchy>
   </Hierarchies>
