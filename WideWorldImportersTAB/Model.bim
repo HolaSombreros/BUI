@@ -352,6 +352,22 @@
             "name": "ISO Week Number",
             "dataType": "int64",
             "sourceColumn": "ISO Week Number"
+          },
+          {
+            "type": "calculated",
+            "name": "Quarter",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": [
+              " SWITCH(",
+              "    TRUE(), ",
+              "    AND ([Calendar Month Number] > 0, [Calendar Month Number] < 4), \"Q1\", ",
+              "    [Calendar Month Number] < 7, \"Q2\", ",
+              "    [Calendar Month Number] < 10, \"Q3\", ",
+              "    [Calendar Month Number] < 13,  \"Q4\",",
+              "    \"Undefined\")",
+              "    "
+            ]
           }
         ],
         "partitions": [
@@ -604,19 +620,36 @@
             }
           }
         ],
+        "measures": [
+          {
+            "name": "% Of Nortwind Stock Items",
+            "expression": " COUNT('NorthWind Stock Item'[Stock Item Key]) / Count('Dimension Stock Item'[Stock Item Key])",
+            "formatString": "0.00%;-0.00%;0.00%"
+          }
+        ],
         "hierarchies": [
           {
             "name": "Item Brand",
             "levels": [
               {
                 "name": "Brand",
-                "ordinal": 0,
+                "ordinal": 3,
                 "column": "Brand"
               },
               {
                 "name": "Stock Item",
-                "ordinal": 1,
+                "ordinal": 0,
                 "column": "Stock Item"
+              },
+              {
+                "name": "Color",
+                "ordinal": 1,
+                "column": "Color"
+              },
+              {
+                "name": "Size",
+                "ordinal": 2,
+                "column": "Size"
               }
             ]
           }
@@ -729,6 +762,13 @@
             "name": "Lineage Key",
             "dataType": "int64",
             "sourceColumn": "Lineage Key"
+          },
+          {
+            "type": "calculated",
+            "name": "Delivery Time In Hours",
+            "dataType": "int64",
+            "isDataTypeInferred": true,
+            "expression": " DATEDIFF([Invoice Date Key], [Delivery Date Key], HOUR)"
           }
         ],
         "partitions": [
@@ -762,8 +802,23 @@
         ],
         "measures": [
           {
-            "name": "Sum of Total Including Tax",
-            "expression": "SUM([Total Including Tax])",
+            "name": "Average Delivery Time In Hours",
+            "expression": " AVERAGE('Fact Sale'[Delivery Time In Hours])"
+          },
+          {
+            "name": "Previous Yearly Profit",
+            "expression": " SUMX('Fact Sale', IF(YEAR('Fact Sale'[Invoice Date Key]) = YEAR(TODAY()) - 1, 'Fact Sale'[Profit], 0)) ",
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
+              }
+            ]
+          },
+          {
+            "name": "Current Yearly Profit",
+            "expression": " SUMX('Fact Sale', IF(year('Fact Sale'[Invoice Date Key]) = year(today()), 'Fact Sale'[Profit], 0))",
             "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
             "annotations": [
               {
@@ -849,6 +904,304 @@
             }
           }
         ]
+      },
+      {
+        "name": "NorthWind Stock Item",
+        "columns": [
+          {
+            "type": "calculatedTableColumn",
+            "name": "Stock Item Key",
+            "dataType": "int64",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "Dimension Stock Item[Stock Item Key]"
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "WWI Stock Item ID",
+            "dataType": "int64",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "Dimension Stock Item[WWI Stock Item ID]"
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "Stock Item",
+            "dataType": "string",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "Dimension Stock Item[Stock Item]"
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "Color",
+            "dataType": "string",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "Dimension Stock Item[Color]"
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "Selling Package",
+            "dataType": "string",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "Dimension Stock Item[Selling Package]"
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "Buying Package",
+            "dataType": "string",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "Dimension Stock Item[Buying Package]"
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "Brand",
+            "dataType": "string",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "Dimension Stock Item[Brand]"
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "Size",
+            "dataType": "string",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "Dimension Stock Item[Size]"
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "Lead Time Days",
+            "dataType": "int64",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "Dimension Stock Item[Lead Time Days]"
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "Quantity Per Outer",
+            "dataType": "int64",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "Dimension Stock Item[Quantity Per Outer]"
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "Is Chiller Stock",
+            "dataType": "boolean",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "Dimension Stock Item[Is Chiller Stock]",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\""
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "Barcode",
+            "dataType": "string",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "Dimension Stock Item[Barcode]"
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "Tax Rate",
+            "dataType": "double",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "Dimension Stock Item[Tax Rate]"
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "Unit Price",
+            "dataType": "double",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "Dimension Stock Item[Unit Price]"
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "Recommended Retail Price",
+            "dataType": "double",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "Dimension Stock Item[Recommended Retail Price]"
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "Typical Weight Per Unit",
+            "dataType": "double",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "Dimension Stock Item[Typical Weight Per Unit]"
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "Valid From",
+            "dataType": "dateTime",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "Dimension Stock Item[Valid From]"
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "Valid To",
+            "dataType": "dateTime",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "Dimension Stock Item[Valid To]"
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "Lineage Key",
+            "dataType": "int64",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "Dimension Stock Item[Lineage Key]"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "CalculatedTable 1",
+            "source": {
+              "type": "calculated",
+              "expression": " FILTER('Dimension Stock Item', 'Dimension Stock Item'[Brand] = \"Northwind\")"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Dimension Supplier",
+        "columns": [
+          {
+            "name": "Supplier Key",
+            "dataType": "int64",
+            "sourceColumn": "Supplier Key"
+          },
+          {
+            "name": "WWI Supplier ID",
+            "dataType": "int64",
+            "sourceColumn": "WWI Supplier ID"
+          },
+          {
+            "name": "Supplier",
+            "dataType": "string",
+            "sourceColumn": "Supplier"
+          },
+          {
+            "name": "Category",
+            "dataType": "string",
+            "sourceColumn": "Category"
+          },
+          {
+            "name": "Primary Contact",
+            "dataType": "string",
+            "sourceColumn": "Primary Contact"
+          },
+          {
+            "name": "Supplier Reference",
+            "dataType": "string",
+            "sourceColumn": "Supplier Reference"
+          },
+          {
+            "name": "Payment Days",
+            "dataType": "int64",
+            "sourceColumn": "Payment Days"
+          },
+          {
+            "name": "Postal Code",
+            "dataType": "string",
+            "sourceColumn": "Postal Code"
+          },
+          {
+            "name": "Valid From",
+            "dataType": "dateTime",
+            "sourceColumn": "Valid From"
+          },
+          {
+            "name": "Valid To",
+            "dataType": "dateTime",
+            "sourceColumn": "Valid To"
+          },
+          {
+            "name": "Lineage Key",
+            "dataType": "int64",
+            "sourceColumn": "Lineage Key"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/DESKTOP-30T6BRV\\DOWSQL2022;WideWorldImportersDW\",",
+                "    Dimension_Supplier = Source{[Schema=\"Dimension\",Item=\"Supplier\"]}[Data]",
+                "in",
+                "    Dimension_Supplier"
+              ]
+            }
+          }
+        ],
+        "hierarchies": [
+          {
+            "name": "Category Supplier",
+            "levels": [
+              {
+                "name": "Category",
+                "ordinal": 0,
+                "column": "Category"
+              },
+              {
+                "name": "Supplier",
+                "ordinal": 1,
+                "column": "Supplier"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Item Per Supplier",
+        "columns": [
+          {
+            "type": "calculatedTableColumn",
+            "name": "Supplier",
+            "dataType": "string",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "Dimension Supplier[Supplier]"
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "Stock Item",
+            "dataType": "string",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "Dimension Stock Item[Stock Item]"
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "Item Per Supplier",
+            "dataType": "int64",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "[Item Per Supplier]"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "CalculatedTable 1",
+            "source": {
+              "type": "calculated",
+              "expression": "SUMMARIZECOLUMNS('Dimension Stock Item'[Stock Item] ,'Dimension Supplier'[Supplier], \"Item Per Supplier\", Count('Fact Purchase'[Stock Item Key]))"
+            }
+          }
+        ]
       }
     ],
     "relationships": [
@@ -916,6 +1269,13 @@
         "fromColumn": "Stock Item Key",
         "toTable": "Dimension Stock Item",
         "toColumn": "Stock Item Key"
+      },
+      {
+        "name": "139cb526-d465-490a-9f9f-b19ad9641b48",
+        "fromTable": "Fact Purchase",
+        "fromColumn": "Supplier Key",
+        "toTable": "Dimension Supplier",
+        "toColumn": "Supplier Key"
       }
     ],
     "annotations": [
