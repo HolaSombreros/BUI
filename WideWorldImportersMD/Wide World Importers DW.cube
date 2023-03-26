@@ -1273,7 +1273,16 @@ VISIBLE = 1 ,  ASSOCIATED_MEASURE_GROUP = 'Sale'  ;
 CREATE MEMBER CURRENTCUBE.[Measures].[Items per Supplier]
  AS CoalesceEmpty(Sum([Stock Item].[Stock Item].members,[Measures].[Purchase Count]),0), 
 FORMAT_STRING = "0", 
-VISIBLE = 1 ,  ASSOCIATED_MEASURE_GROUP = 'Purchase'  ; </Text>
+VISIBLE = 1 ,  ASSOCIATED_MEASURE_GROUP = 'Purchase'; 
+CREATE MEMBER CURRENTCUBE.[Measures].[Top3MostSoldItems]
+ AS topcount(NONEMPTY(ORDER([Stock Item].[Stock Item].[Stock Item].MEMBERS, [Measures].[Quantity], DESC), [Measures].[Quantity]),3), 
+FORMAT_STRING = "#.##0,00;-#.##0,00", 
+VISIBLE = 1 ,  DISPLAY_FOLDER = 'Sale'  ; 
+CREATE MEMBER CURRENTCUBE.[Measures].[Top3LeastSoldItems]
+ AS NONEMPTY(ORDER([Stock Item].[Stock Item].[Stock Item].MEMBERS,
+  [Measures].[Quantity], DESC), [Measures].[Quantity]), 
+FORMAT_STRING = "0", 
+VISIBLE = 1 ,  ASSOCIATED_MEASURE_GROUP = 'Sale'  ; </Text>
         </Command>
       </Commands>
     </MdxScript>
