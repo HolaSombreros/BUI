@@ -1239,7 +1239,8 @@
       <LastSchemaUpdate>0001-01-01T00:00:00Z</LastSchemaUpdate>
       <Commands>
         <Command>
-          <Text>/*
+          <Text>
+/*
 The CALCULATE command controls the aggregation of leaf cells in the cube.
 If the CALCULATE command is deleted or modified, the data within the cube is affected.
 You should edit this command only if you manually specify how the cube is aggregated.
@@ -1260,7 +1261,6 @@ VISIBLE = 1 ,  ASSOCIATED_MEASURE_GROUP = 'Sale'  ;
 CREATE MEMBER CURRENTCUBE.[Measures].[AverageSalePerColor]
  AS AVG([Measures].[Sale Count],[Stock Item].[Color]), 
 FORMAT_STRING = "#.##0,00;-#.##0,00", 
-VISIBLE = 1 ,  DISPLAY_FOLDER = 'Sales'  ; </Text>
 VISIBLE = 1 ,  ASSOCIATED_MEASURE_GROUP = 'Sale'  ;  
 CREATE MEMBER CURRENTCUBE.[Measures].[Money spent by a customer]
  AS SUM([Bill To Customer].[Customer].members, [Measures].[Total Including Tax]), 
