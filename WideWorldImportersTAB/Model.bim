@@ -11,7 +11,7 @@
         "connectionDetails": {
           "protocol": "tds",
           "address": {
-            "server": "DESKTOP-30T6BRV\\DOWSQL2022",
+            "server": "LAPTOP-VA2T4DUA\\MSSQLSERVER01",
             "database": "WideWorldImportersDW"
           },
           "authentication": null,
@@ -20,8 +20,8 @@
         "credential": {
           "AuthenticationKind": "Windows",
           "kind": "SQL",
-          "path": "desktop-30t6brv\\dowsql2022;WideWorldImportersDW",
-          "Username": "DESKTOP-30T6BRV\\Vlad",
+          "path": "laptop-va2t4dua\\mssqlserver01;WideWorldImportersDW",
+          "Username": "LAPTOP-VA2T4DUA\\Fox",
           "EncryptConnection": false
         }
       }
@@ -503,6 +503,13 @@
               ]
             }
           }
+        ],
+        "measures": [
+          {
+            "name": "% of employees that are salespeople",
+            "expression": "COUNTAX('Dimension Employee', [Is Salesperson] = TRUE()) / COUNT('Dimension Employee'[Valid To])",
+            "formatString": "0.00 %;-0.00 %;0.00 %"
+          }
         ]
       },
       {
@@ -623,8 +630,28 @@
         "measures": [
           {
             "name": "% Of Nortwind Stock Items",
-            "expression": " COUNT('NorthWind Stock Item'[Stock Item Key]) / Count('Dimension Stock Item'[Stock Item Key])",
-            "formatString": "0.00%;-0.00%;0.00%"
+            "expression": " COUNT('NorthWind Stock Item'[Stock Item Key]) / COUNT('Dimension Stock Item'[Stock Item Key])",
+            "formatString": "0.00 %;-0.00 %;0.00 %"
+          },
+          {
+            "name": "% of chiller stock",
+            "expression": "COUNTAX(FILTER('Dimension Stock Item', [Is Chiller Stock] = TRUE()), TRUE()) / COUNT('Dimension Stock Item'[Stock Item Key])",
+            "formatString": "0.00 %;-0.00 %;0.00 %"
+          },
+          {
+            "name": "Average typical weight",
+            "expression": "AVERAGE('Dimension Stock Item'[Typical Weight Per Unit])",
+            "formatString": "0.00"
+          },
+          {
+            "name": "Average unit price",
+            "expression": "AVERAGE('Dimension Stock Item'[Unit Price])",
+            "formatString": "0.00"
+          },
+          {
+            "name": "Average recommended retail price",
+            "expression": "AVERAGE('Dimension Stock Item'[Recommended Retail Price])",
+            "formatString": "0.00"
           }
         ],
         "hierarchies": [
@@ -802,8 +829,8 @@
         ],
         "measures": [
           {
-            "name": "Average Delivery Time In Hours",
-            "expression": " AVERAGE('Fact Sale'[Delivery Time In Hours])"
+            "name": "Average Delivery Time In Days",
+            "expression": " AVERAGE('Fact Sale'[Delivery Time In Hours])/24"
           },
           {
             "name": "Previous Yearly Profit",
@@ -818,7 +845,7 @@
           },
           {
             "name": "Current Yearly Profit",
-            "expression": " SUMX('Fact Sale', IF(year('Fact Sale'[Invoice Date Key]) = year(today()), 'Fact Sale'[Profit], 0))",
+            "expression": " SUMX('Fact Sale', IF(YEAR('Fact Sale'[Invoice Date Key]) = YEAR(TODAY()), 'Fact Sale'[Profit], 0))",
             "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
             "annotations": [
               {
@@ -826,6 +853,16 @@
                 "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
               }
             ]
+          },
+          {
+            "name": "Average chiller items per order",
+            "expression": "AVERAGE('Fact Sale'[Total Chiller Items])",
+            "formatString": "0.00"
+          },
+          {
+            "name": "Yearly profit growth",
+            "expression": "([Current Yearly Profit] - [Previous Yearly Profit]) / [Previous Yearly Profit]",
+            "formatString": "0.00 %;-0.00 %;0.00 %"
           }
         ]
       },
@@ -902,6 +939,13 @@
                 "    Fact_Purchase"
               ]
             }
+          }
+        ],
+        "measures": [
+          {
+            "name": "Average quantity per order",
+            "expression": "AVERAGE('Fact Purchase'[Ordered Quantity])",
+            "formatString": "0.00"
           }
         ]
       },
@@ -1067,7 +1111,7 @@
             "name": "CalculatedTable 1",
             "source": {
               "type": "calculated",
-              "expression": " FILTER('Dimension Stock Item', 'Dimension Stock Item'[Brand] = \"Northwind\")"
+              "expression": " FILTER('Dimension Stock Item', [Brand] = \"Northwind\")"
             }
           }
         ]
@@ -1147,6 +1191,12 @@
             }
           }
         ],
+        "measures": [
+          {
+            "name": "# of current suppliers",
+            "expression": "COUNTAX('Dimension Supplier', ISBLANK([Valid To]) = TRUE())"
+          }
+        ],
         "hierarchies": [
           {
             "name": "Category Supplier",
@@ -1186,11 +1236,11 @@
           },
           {
             "type": "calculatedTableColumn",
-            "name": "Item Per Supplier",
+            "name": "Items Per Supplier",
             "dataType": "int64",
             "isNameInferred": true,
             "isDataTypeInferred": true,
-            "sourceColumn": "[Item Per Supplier]"
+            "sourceColumn": "[Items Per Supplier]"
           }
         ],
         "partitions": [
@@ -1198,7 +1248,7 @@
             "name": "CalculatedTable 1",
             "source": {
               "type": "calculated",
-              "expression": "SUMMARIZECOLUMNS('Dimension Stock Item'[Stock Item] ,'Dimension Supplier'[Supplier], \"Item Per Supplier\", Count('Fact Purchase'[Stock Item Key]))"
+              "expression": "SUMMARIZECOLUMNS('Dimension Stock Item'[Stock Item], 'Dimension Supplier'[Supplier], \"Items Per Supplier\", COUNT('Fact Purchase'[Stock Item Key]))"
             }
           }
         ]
