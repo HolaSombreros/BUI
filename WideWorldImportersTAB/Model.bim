@@ -11,7 +11,7 @@
         "connectionDetails": {
           "protocol": "tds",
           "address": {
-            "server": "DESKTOP-30T6BRV\\DOWSQL2022",
+            "server": "LAPTOP-VA2T4DUA\\MSSQLSERVER01",
             "database": "WideWorldImportersDW"
           },
           "authentication": null,
@@ -20,8 +20,8 @@
         "credential": {
           "AuthenticationKind": "Windows",
           "kind": "SQL",
-          "path": "desktop-30t6brv\\dowsql2022;WideWorldImportersDW",
-          "Username": "DESKTOP-30T6BRV\\Vlad",
+          "path": "laptop-va2t4dua\\mssqlserver01;WideWorldImportersDW",
+          "Username": "fox",
           "EncryptConnection": false
         }
       }
@@ -250,6 +250,28 @@
             }
           }
         ],
+        "measures": [
+          {
+            "name": "Total customer count",
+            "expression": "COUNT('Dimension Customer'[Bill To Customer])",
+            "formatString": "0"
+          },
+          {
+            "name": "Total Tailspin Toys customers",
+            "expression": "COUNTROWS(FILTER('Dimension Customer', 'Dimension Customer'[Buying Group] = \"Tailspin Toys\"))",
+            "formatString": "0"
+          },
+          {
+            "name": "% of customers are Tailspin Toys",
+            "expression": "COUNTROWS(FILTER('Dimension Customer', 'Dimension Customer'[Buying Group] = \"Tailspin Toys\")) / COUNT('Dimension Customer'[Bill To Customer])",
+            "formatString": "0.00 %;-0.00 %;0.00 %"
+          },
+          {
+            "name": "Current customer count",
+            "expression": "COUNTROWS(FILTER('Dimension Customer', 'Dimension Customer'[Valid To] > TODAY()))",
+            "formatString": "0"
+          }
+        ],
         "hierarchies": [
           {
             "name": "Customer Category",
@@ -364,7 +386,7 @@
               "    AND ([Calendar Month Number] > 0, [Calendar Month Number] < 4), \"Q1\", ",
               "    [Calendar Month Number] < 7, \"Q2\", ",
               "    [Calendar Month Number] < 10, \"Q3\", ",
-              "    [Calendar Month Number] < 13,  \"Q4\",",
+              "    [Calendar Month Number] < 13, \"Q4\",",
               "    \"Undefined\")",
               "    "
             ]
@@ -397,13 +419,18 @@
               },
               {
                 "name": "Calendar Month",
-                "ordinal": 1,
+                "ordinal": 2,
                 "column": "Calendar Month Label"
               },
               {
                 "name": "Date",
-                "ordinal": 2,
+                "ordinal": 3,
                 "column": "Date"
+              },
+              {
+                "name": "Quarter",
+                "ordinal": 1,
+                "column": "Quarter"
               }
             ]
           },
@@ -422,8 +449,13 @@
               },
               {
                 "name": "Date",
-                "ordinal": 2,
+                "ordinal": 3,
                 "column": "Date"
+              },
+              {
+                "name": "Quarter",
+                "ordinal": 2,
+                "column": "Quarter"
               }
             ]
           },
@@ -502,6 +534,13 @@
                 "    Dimension_Employee"
               ]
             }
+          }
+        ],
+        "measures": [
+          {
+            "name": "% of current employees that are salespeople",
+            "expression": "COUNTROWS(FILTER('Dimension Employee', AND('Dimension Employee'[Valid To] > TODAY(), 'Dimension Employee'[Is Salesperson] = TRUE()))) / COUNTROWS(FILTER('Dimension Employee', 'Dimension Employee'[Valid To] > TODAY()))",
+            "formatString": "0.00 %;-0.00 %;0.00 %"
           }
         ]
       },
@@ -622,9 +661,24 @@
         ],
         "measures": [
           {
-            "name": "% Of Nortwind Stock Items",
-            "expression": " COUNT('NorthWind Stock Item'[Stock Item Key]) / Count('Dimension Stock Item'[Stock Item Key])",
-            "formatString": "0.00%;-0.00%;0.00%"
+            "name": "% of stock items are Nortwind",
+            "expression": " COUNT('NorthWind Stock Item'[Stock Item Key]) / COUNT('Dimension Stock Item'[Stock Item Key])",
+            "formatString": "0.00 %;-0.00 %;0.00 %"
+          },
+          {
+            "name": "Chiller stock percentage",
+            "expression": "COUNTAX(FILTER('Dimension Stock Item', [Is Chiller Stock] = TRUE()), TRUE()) / COUNT('Dimension Stock Item'[Stock Item Key])",
+            "formatString": "0.00 %;-0.00 %;0.00 %"
+          },
+          {
+            "name": "Unit price average",
+            "expression": "AVERAGE('Dimension Stock Item'[Unit Price])",
+            "formatString": "0.00"
+          },
+          {
+            "name": "Recommended retail price average",
+            "expression": "AVERAGE('Dimension Stock Item'[Recommended Retail Price])",
+            "formatString": "0.00"
           }
         ],
         "hierarchies": [
@@ -779,10 +833,9 @@
               "expression": [
                 "let",
                 "    Source = #\"SQL/DESKTOP-30T6BRV\\DOWSQL2022;WideWorldImportersDW\",",
-                "    Fact_Sale = Source{[Schema=\"Fact\",Item=\"Sale\"]}[Data],",
-                "    #\"Filtered Rows\" = Table.SelectRows(Fact_Sale, each [Invoice Date Key] >= #date(2015, 1, 1))",
+                "    Fact_Sale = Source{[Schema=\"Fact\",Item=\"Sale\"]}[Data]",
                 "in",
-                "    #\"Filtered Rows\""
+                "    Fact_Sale"
               ]
             },
             "annotations": [
@@ -791,10 +844,9 @@
                 "value": [
                   "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>let",
                   "    Source = #\"SQL/DESKTOP-30T6BRV\\DOWSQL2022;WideWorldImportersDW\",",
-                  "    Fact_Sale = Source{[Schema=\"Fact\",Item=\"Sale\"]}[Data],",
-                  "    #\"Filtered Rows\" = Table.SelectRows(Fact_Sale, each [Invoice Date Key] >= #date(2015, 1, 1))",
+                  "    Fact_Sale = Source{[Schema=\"Fact\",Item=\"Sale\"]}[Data]",
                   "in",
-                  "    #\"Filtered Rows\"</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+                  "    Fact_Sale</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
                 ]
               }
             ]
@@ -802,30 +854,112 @@
         ],
         "measures": [
           {
-            "name": "Average Delivery Time In Hours",
-            "expression": " AVERAGE('Fact Sale'[Delivery Time In Hours])"
+            "name": "test",
+            "expression": " SUMX('Fact Sale', IF(YEAR('Fact Sale'[Invoice Date Key]) = YEAR(TODAY()), 'Fact Sale'[Profit], 0))"
           },
           {
-            "name": "Previous Yearly Profit",
-            "expression": " SUMX('Fact Sale', IF(YEAR('Fact Sale'[Invoice Date Key]) = YEAR(TODAY()) - 1, 'Fact Sale'[Profit], 0)) ",
-            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
-            "annotations": [
-              {
-                "name": "Format",
-                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
-              }
-            ]
+            "name": "Total profit sum",
+            "expression": "SUM('Fact Sale'[Total Including Tax])",
+            "formatString": "0.00"
           },
           {
-            "name": "Current Yearly Profit",
-            "expression": " SUMX('Fact Sale', IF(year('Fact Sale'[Invoice Date Key]) = year(today()), 'Fact Sale'[Profit], 0))",
-            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
-            "annotations": [
-              {
-                "name": "Format",
-                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
-              }
-            ]
+            "name": "Total profit average",
+            "expression": "AVERAGE('Fact Sale'[Total Including Tax])",
+            "formatString": "0.00"
+          },
+          {
+            "name": "Quantity sum",
+            "expression": "SUM('Fact Sale'[Quantity])",
+            "formatString": "0"
+          },
+          {
+            "name": "Quantity average",
+            "expression": "AVERAGE('Fact Sale'[Quantity])",
+            "formatString": "0.00"
+          },
+          {
+            "name": "Dry items sum",
+            "expression": "SUM('Fact Sale'[Total Dry Items])",
+            "formatString": "0"
+          },
+          {
+            "name": "Chiller items sum",
+            "expression": "SUM('Fact Sale'[Total Chiller Items])",
+            "formatString": "0"
+          },
+          {
+            "name": "Dry items average",
+            "expression": "AVERAGE('Fact Sale'[Total Dry Items])",
+            "formatString": "0.00"
+          },
+          {
+            "name": "Chiller items average",
+            "expression": "AVERAGE('Fact Sale'[Total Chiller Items])",
+            "formatString": "0.00"
+          },
+          {
+            "name": "Delivery time average (in days)",
+            "expression": "AVERAGE('Fact Sale'[Delivery Time In Hours]) / 24",
+            "formatString": "0.00"
+          },
+          {
+            "name": "Previous yearly profit",
+            "expression": "SUMX('Fact Sale', IF(YEAR('Fact Sale'[Invoice Date Key]) = 2015, 'Fact Sale'[Total Including Tax], 0))",
+            "formatString": "0.00"
+          },
+          {
+            "name": "Current yearly profit",
+            "expression": "SUMX('Fact Sale', IF(YEAR('Fact Sale'[Invoice Date Key]) = 2016, 'Fact Sale'[Total Including Tax], 0))",
+            "formatString": "0.00"
+          },
+          {
+            "name": "Yearly profit growth",
+            "expression": "([Current Yearly Profit] - [Previous Yearly Profit]) / [Previous Yearly Profit]",
+            "formatString": "0.00 %;-0.00 %;0.00 %",
+            "kpi": {
+              "targetExpression": "5",
+              "targetFormatString": "0.00 %;-0.00 %;0.00 %",
+              "statusGraphic": "Traffic Light - Single",
+              "statusExpression": [
+                "var x='Fact Sale'[Yearly profit growth] return",
+                "            if(ISBLANK(x),BLANK(),",
+                "                    If(x<0,-1,",
+                "\t                If(x<2.5,0,1)",
+                "                )",
+                "            )",
+                "            "
+              ],
+              "annotations": [
+                {
+                  "name": "GoalType",
+                  "value": "StaticValue"
+                },
+                {
+                  "name": "KpiStatusType",
+                  "value": "Linear"
+                },
+                {
+                  "name": "KpiThresholdType",
+                  "value": "Absolute"
+                },
+                {
+                  "name": "KpiThresholdOrdering",
+                  "value": "Ascending"
+                },
+                {
+                  "name": "KpiThresholdCount",
+                  "value": "2"
+                },
+                {
+                  "name": "KpiThreshold_0",
+                  "value": "0"
+                },
+                {
+                  "name": "KpiThreshold_1",
+                  "value": "2.5"
+                }
+              ]
+            }
           }
         ]
       },
@@ -902,6 +1036,97 @@
                 "    Fact_Purchase"
               ]
             }
+          }
+        ],
+        "measures": [
+          {
+            "name": "Ordered quantity sum",
+            "expression": "SUM('Fact Purchase'[Ordered Quantity])",
+            "formatString": "0"
+          },
+          {
+            "name": "Ordered quantity average",
+            "expression": "AVERAGE('Fact Purchase'[Ordered Quantity])",
+            "formatString": "0.00"
+          },
+          {
+            "name": "Carton package count",
+            "expression": "COUNTROWS(FILTER('Fact Purchase', 'Fact Purchase'[Package] = \"Carton\"))",
+            "formatString": "0"
+          },
+          {
+            "name": "Each package count",
+            "expression": "COUNTROWS(FILTER('Fact Purchase', 'Fact Purchase'[Package] = \"Each\"))",
+            "formatString": "0"
+          },
+          {
+            "name": "Carton package percentage",
+            "expression": "COUNTROWS(FILTER('Fact Purchase', 'Fact Purchase'[Package] = \"Carton\")) / COUNT('Fact Purchase'[Package])",
+            "formatString": "0.00 %;-0.00 %;0.00 %"
+          },
+          {
+            "name": "Each package percentage",
+            "expression": "COUNTROWS(FILTER('Fact Purchase', 'Fact Purchase'[Package] = \"Each\")) / COUNT('Fact Purchase'[Package])",
+            "formatString": "0.00 %;-0.00 %;0.00 %"
+          },
+          {
+            "name": "Finalized orders percentage",
+            "expression": "COUNTROWS(FILTER('Fact Purchase', 'Fact Purchase'[Is Order Finalized] = TRUE())) / COUNTA('Fact Purchase'[Is Order Finalized])",
+            "formatString": "0.00 %;-0.00 %;0.00 %",
+            "kpi": {
+              "targetExpression": "99",
+              "targetFormatString": "0.00 %;-0.00 %;0.00 %",
+              "statusGraphic": "Traffic Light - Single",
+              "statusExpression": [
+                "var x='Fact Purchase'[Finalized orders percentage] return",
+                "            if(ISBLANK(x),BLANK(),",
+                "                    If(x<90,-1,",
+                "\t                If(x<94.5,0,1)",
+                "                )",
+                "            )",
+                "            "
+              ],
+              "annotations": [
+                {
+                  "name": "GoalType",
+                  "value": "StaticValue"
+                },
+                {
+                  "name": "KpiStatusType",
+                  "value": "Linear"
+                },
+                {
+                  "name": "KpiThresholdType",
+                  "value": "Absolute"
+                },
+                {
+                  "name": "KpiThresholdOrdering",
+                  "value": "Ascending"
+                },
+                {
+                  "name": "KpiThresholdCount",
+                  "value": "2"
+                },
+                {
+                  "name": "KpiThreshold_0",
+                  "value": "90"
+                },
+                {
+                  "name": "KpiThreshold_1",
+                  "value": "94.5"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Finalized orders count",
+            "expression": "COUNTROWS(FILTER('Fact Purchase', 'Fact Purchase'[Is Order Finalized] = TRUE()))",
+            "formatString": "0"
+          },
+          {
+            "name": "Orders count",
+            "expression": "COUNTA('Fact Purchase'[Is Order Finalized])",
+            "formatString": "0"
           }
         ]
       },
@@ -1067,7 +1292,7 @@
             "name": "CalculatedTable 1",
             "source": {
               "type": "calculated",
-              "expression": " FILTER('Dimension Stock Item', 'Dimension Stock Item'[Brand] = \"Northwind\")"
+              "expression": " FILTER('Dimension Stock Item', [Brand] = \"Northwind\")"
             }
           }
         ]
@@ -1147,6 +1372,18 @@
             }
           }
         ],
+        "measures": [
+          {
+            "name": "Current supplier count",
+            "expression": "COUNTROWS(FILTER('Dimension Supplier', 'Dimension Supplier'[Valid To] > TODAY()))",
+            "formatString": "0"
+          },
+          {
+            "name": "Payment days average",
+            "expression": "AVERAGE('Dimension Supplier'[Payment Days])",
+            "formatString": "0.00"
+          }
+        ],
         "hierarchies": [
           {
             "name": "Category Supplier",
@@ -1186,11 +1423,11 @@
           },
           {
             "type": "calculatedTableColumn",
-            "name": "Item Per Supplier",
+            "name": "Items Per Supplier",
             "dataType": "int64",
             "isNameInferred": true,
             "isDataTypeInferred": true,
-            "sourceColumn": "[Item Per Supplier]"
+            "sourceColumn": "[Items Per Supplier]"
           }
         ],
         "partitions": [
@@ -1198,7 +1435,7 @@
             "name": "CalculatedTable 1",
             "source": {
               "type": "calculated",
-              "expression": "SUMMARIZECOLUMNS('Dimension Stock Item'[Stock Item] ,'Dimension Supplier'[Supplier], \"Item Per Supplier\", Count('Fact Purchase'[Stock Item Key]))"
+              "expression": "SUMMARIZECOLUMNS('Dimension Stock Item'[Stock Item], 'Dimension Supplier'[Supplier], \"Items Per Supplier\", COUNT('Fact Purchase'[Stock Item Key]))"
             }
           }
         ]

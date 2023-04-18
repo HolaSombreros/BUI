@@ -543,11 +543,6 @@
           <Name>Size</Name>
           <SourceAttributeID>Size</SourceAttributeID>
         </Level>
-        <Level dwd:design-time-name="33bc4a9e-b099-4a0c-b181-991949e55e7f">
-          <ID>Brand</ID>
-          <Name>Brand</Name>
-          <SourceAttributeID>Brand</SourceAttributeID>
-        </Level>
       </Levels>
     </Hierarchy>
   </Hierarchies>

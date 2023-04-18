@@ -1254,7 +1254,14 @@ The CALCULATE command controls the aggregation of leaf cells in the cube.
 If the CALCULATE command is deleted or modified, the data within the cube is affected.
 You should edit this command only if you manually specify how the cube is aggregated.
 */
-CALCULATE;  
+CALCULATE;     
+CREATE MEMBER CURRENTCUBE.[Measures].[PreviousATWTPP]
+ AS ( [Measures].[AverageTotalWithTaxPerPeriod], [Invoice Date].[Calendar].PrevMember), 
+FORMAT_STRING = "Currency", 
+VISIBLE = 1 ,  ASSOCIATED_MEASURE_GROUP = 'Sale'  ;      
+CREATE MEMBER CURRENTCUBE.[Measures].[AverageTotalWithTaxPerPeriod]
+ AS [Measures].[Total Including Tax] / Count([Invoice Date].[Calendar]), 
+VISIBLE = 1 ,  ASSOCIATED_MEASURE_GROUP = 'Sale'  ;        
 CREATE MEMBER CURRENTCUBE.[Measures].[TotalProfit]
  AS SUM ([Measures].[Profit]), 
 FORMAT_STRING = "#.##0,00;-#.##0,00", 
@@ -1329,6 +1336,24 @@ else 0
 end</Trend>
       <TrendGraphic>Standard Arrow</TrendGraphic>
       <StatusGraphic>Gauge - Ascending</StatusGraphic>
+    </Kpi>
+    <Kpi dwd:design-time-name="cb2966f8-ac28-4e9a-8c0a-4e9094c6d5f9">
+      <ID>KPI 1</ID>
+      <Name>Earnings</Name>
+      <Value>[Measures].[AverageTotalWithTaxPerPeriod]</Value>
+      <Goal></Goal>
+      <Status>case
+when [Measures].[AverageTotalWithTaxPerPeriod] &gt; 100000 then 1
+when [Measures].[AverageTotalWithTaxPerPeriod] &gt; 0 then 0
+else -1
+end</Status>
+      <Trend>case
+when [Measures].[AverageTotalWithTaxPerPeriod] / [Measures].[PreviousATWTPP] &gt; 1.05 then 1
+when [Measures].[AverageTotalWithTaxPerPeriod] / [Measures].[PreviousATWTPP] &gt; 0.95 then 0
+else -1
+end</Trend>
+      <TrendGraphic>Status Arrow - Ascending</TrendGraphic>
+      <StatusGraphic>Shapes</StatusGraphic>
     </Kpi>
     <Kpi dwd:design-time-name="d98d22f6-83db-40e6-9e30-db0646c0b625">
       <ID>KPI 1</ID>
