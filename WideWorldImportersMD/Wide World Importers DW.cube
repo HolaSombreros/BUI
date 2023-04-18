@@ -290,6 +290,7 @@
           <ddscontrol controlprogid="MSDDS.Polyline.080.1" left="10935" top="11376" logicalid="36" controlid="18" masterid="0" hint1="0" hint2="0" width="3101" height="1179" noresize="0" nomove="0" nodefaultattachpoints="1" autodrag="0" usedefaultiddshape="0" selectable="1" showselectionhandles="0" allownudging="1" isannotation="0" dontautolayout="0" groupcollapsed="0" tabstop="1" visible="1" snaptogrid="0">
             <control>
               <ddsxmlobj>
+                <polyline endtypedst="6" endtypesrc="3" usercolor="0" linestyle="0" linerender="1" customendtypedstid="0" customendtypesrcid="0" adornsvisible="1" />
               </ddsxmlobj>
             </control>
             <layoutobject>
@@ -504,6 +505,9 @@
         <Attribute dwd:design-time-name="42487663-5255-47fc-86c7-dc41740b4062">
           <AttributeID>ISO Week Number</AttributeID>
         </Attribute>
+        <Attribute dwd:design-time-name="e00f8a32-a7d3-483f-91fb-b521c209338d">
+          <AttributeID>Quarter</AttributeID>
+        </Attribute>
       </Attributes>
       <Hierarchies>
         <Hierarchy dwd:design-time-name="39da2213-decd-497a-a90f-2e448634b35c">
@@ -703,6 +707,9 @@
         <Attribute dwd:design-time-name="d8430531-1c38-416d-a07e-660245450392">
           <AttributeID>ISO Week Number</AttributeID>
         </Attribute>
+        <Attribute dwd:design-time-name="9cc93ea9-962a-4e45-9da8-579c123f5940">
+          <AttributeID>Quarter</AttributeID>
+        </Attribute>
       </Attributes>
       <Hierarchies>
         <Hierarchy dwd:design-time-name="c4a451ee-bfd5-48f2-9dfe-51a143025953">
@@ -762,6 +769,9 @@
         </Attribute>
         <Attribute dwd:design-time-name="abd8c6a8-4135-42a6-aa8c-3b7c86c4e1bf">
           <AttributeID>ISO Week Number</AttributeID>
+        </Attribute>
+        <Attribute dwd:design-time-name="137c013b-e075-4724-8c5c-c789491b4103">
+          <AttributeID>Quarter</AttributeID>
         </Attribute>
       </Attributes>
       <Hierarchies>
@@ -1268,7 +1278,21 @@ VISIBLE = 1 ,  ASSOCIATED_MEASURE_GROUP = 'Sale'  ;
 CREATE MEMBER CURRENTCUBE.[Stock Item].[Brand].[Northwind Stock Items]
  AS SUM([Stock Item].[Brand].&amp;[Northwind], [Measures].[Quantity]), 
 FORMAT_STRING = "0", 
+VISIBLE = 1 ,  ASSOCIATED_MEASURE_GROUP = 'Sale';  
+CREATE MEMBER CURRENTCUBE.[Measures].[Profit for previous year]
+ AS Sum(
+      [Invoice Date].[Calendar Year].&amp;[2015],
+      [Measures].[Profit]
+   ), 
+FORMAT_STRING = "0", 
+VISIBLE = 1 ,  ASSOCIATED_MEASURE_GROUP = 'Sale'  ;  
+CREATE MEMBER CURRENTCUBE.[Measures].[Profit For Last Year Increase 10%]
+ AS [Measures].[Profit for previous year]*1.1, 
+FORMAT_STRING = "0", 
 VISIBLE = 1 ,  ASSOCIATED_MEASURE_GROUP = 'Sale'  ; 
+CREATE MEMBER CURRENTCUBE.[Measures].[Profit for current year]
+ AS Sum([Invoice Date].[Calendar Year].&amp;[2016],[Measures].[Profit]), 
+VISIBLE = 1  ;   
 CREATE MEMBER CURRENTCUBE.[Measures].[Items per Supplier]
  AS CoalesceEmpty(Sum([Stock Item].[Stock Item].members,[Measures].[Purchase Count]),0), 
 FORMAT_STRING = "0", 
@@ -1305,6 +1329,25 @@ else 0
 end</Trend>
       <TrendGraphic>Standard Arrow</TrendGraphic>
       <StatusGraphic>Gauge - Ascending</StatusGraphic>
+    </Kpi>
+    <Kpi dwd:design-time-name="d98d22f6-83db-40e6-9e30-db0646c0b625">
+      <ID>KPI 1</ID>
+      <Name>ProfitIncreaseFromLastYearKpi</Name>
+      <AssociatedMeasureGroupID>Sale</AssociatedMeasureGroupID>
+      <Value>[Measures].[Profit for current year]/1000000</Value>
+      <Goal>[Measures].[Profit For Last Year Increase 10%]/1000000</Goal>
+      <Status>case
+when kpiValue('ProfitIncreaseFromLastYearKpi') &gt; kpiGoal('ProfitIncreaseFromLastYearKpi') then 1
+when kpiValue('ProfitIncreaseFromLastYearKpi') &lt; kpiGoal('ProfitIncreaseFromLastYearKpi') then -1
+else 0
+end</Status>
+      <Trend>case
+when ([Measures].[Profit for current year]) &gt; ([Measures].[Profit For Last Year Increase 10%]) then 1
+when ([Measures].[Profit for current year]) &lt; ([Measures].[Profit For Last Year Increase 10%]) then -1
+else 0
+end</Trend>
+      <TrendGraphic>Standard Arrow</TrendGraphic>
+      <StatusGraphic>Shapes</StatusGraphic>
     </Kpi>
   </Kpis>
 </Cube>
