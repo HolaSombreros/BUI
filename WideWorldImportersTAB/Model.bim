@@ -661,7 +661,7 @@
         ],
         "measures": [
           {
-            "name": "% of stock items are Nortwind",
+            "name": "% of stock items are Northwind",
             "expression": " COUNT('NorthWind Stock Item'[Stock Item Key]) / COUNT('Dimension Stock Item'[Stock Item Key])",
             "formatString": "0.00 %;-0.00 %;0.00 %"
           },
@@ -827,7 +827,7 @@
         ],
         "partitions": [
           {
-            "name": "Current Partition",
+            "name": "All data",
             "source": {
               "type": "m",
               "expression": [
@@ -853,20 +853,6 @@
           }
         ],
         "measures": [
-          {
-            "name": "test",
-            "expression": " SUMX('Fact Sale', IF(YEAR('Fact Sale'[Invoice Date Key]) = YEAR(TODAY()), 'Fact Sale'[Profit], 0))"
-          },
-          {
-            "name": "Total profit sum",
-            "expression": "SUM('Fact Sale'[Total Including Tax])",
-            "formatString": "0.00"
-          },
-          {
-            "name": "Total profit average",
-            "expression": "AVERAGE('Fact Sale'[Total Including Tax])",
-            "formatString": "0.00"
-          },
           {
             "name": "Quantity sum",
             "expression": "SUM('Fact Sale'[Quantity])",
@@ -903,28 +889,40 @@
             "formatString": "0.00"
           },
           {
-            "name": "Previous yearly profit",
-            "expression": "SUMX('Fact Sale', IF(YEAR('Fact Sale'[Invoice Date Key]) = 2015, 'Fact Sale'[Total Including Tax], 0))",
+            "name": "Total profit sum",
+            "expression": "SUM('Fact Sale'[Profit])",
             "formatString": "0.00"
           },
           {
-            "name": "Current yearly profit",
-            "expression": "SUMX('Fact Sale', IF(YEAR('Fact Sale'[Invoice Date Key]) = 2016, 'Fact Sale'[Total Including Tax], 0))",
+            "name": "Total profit average",
+            "expression": "AVERAGE('Fact Sale'[Profit])",
             "formatString": "0.00"
           },
           {
-            "name": "Yearly profit growth",
-            "expression": "([Current Yearly Profit] - [Previous Yearly Profit]) / [Previous Yearly Profit]",
+            "name": "Profit YTD",
+            "expression": "TOTALYTD(SUM('Fact Sale'[Profit]), 'Dimension Date'[Date])"
+          },
+          {
+            "name": "Profit next year",
+            "expression": "CALCULATE(SUM('Fact Sale'[Profit]), NEXTYEAR('Dimension Date'[Date]))"
+          },
+          {
+            "name": "Profit previous year",
+            "expression": "CALCULATE(SUM('Fact Sale'[Profit]), PREVIOUSYEAR('Dimension Date'[Date]))"
+          },
+          {
+            "name": "% of Northwind items sold",
+            "expression": "'Fact Sale'[Total Northwind items sold] / SUM('Fact Sale'[Quantity])",
             "formatString": "0.00 %;-0.00 %;0.00 %",
             "kpi": {
-              "targetExpression": "5",
+              "targetExpression": "0,0125",
               "targetFormatString": "0.00 %;-0.00 %;0.00 %",
               "statusGraphic": "Traffic Light - Single",
               "statusExpression": [
-                "var x='Fact Sale'[Yearly profit growth] return",
+                "var x='Fact Sale'[% of Northwind items sold] return",
                 "            if(ISBLANK(x),BLANK(),",
-                "                    If(x<0,-1,",
-                "\t                If(x<2.5,0,1)",
+                "                    If(x<0.011,-1,",
+                "\t                If(x<0.0118,0,1)",
                 "                )",
                 "            )",
                 "            "
@@ -952,14 +950,18 @@
                 },
                 {
                   "name": "KpiThreshold_0",
-                  "value": "0"
+                  "value": "0.011"
                 },
                 {
                   "name": "KpiThreshold_1",
-                  "value": "2.5"
+                  "value": "0.0118"
                 }
               ]
             }
+          },
+          {
+            "name": "Total Northwind items sold",
+            "expression": "SUMX('Fact Sale', IF(RELATED('Dimension Stock Item'[Brand])=\"Northwind\", 'Fact Sale'[Quantity],0))"
           }
         ]
       },
@@ -1436,6 +1438,51 @@
             "source": {
               "type": "calculated",
               "expression": "SUMMARIZECOLUMNS('Dimension Stock Item'[Stock Item], 'Dimension Supplier'[Supplier], \"Items Per Supplier\", COUNT('Fact Purchase'[Stock Item Key]))"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Annual Calculations",
+        "calculationGroup": {
+          "precedence": 25,
+          "calculationItems": [
+            {
+              "name": "YTD",
+              "expression": "CALCULATE(SELECTEDMEASURE(),DATESYTD('Dimension Date'[Date]))",
+              "ordinal": 1
+            },
+            {
+              "name": "Previous Year",
+              "expression": "CALCULATE(SELECTEDMEASURE(),PREVIOUSYEAR('Dimension Date'[Date]))",
+              "ordinal": 3
+            },
+            {
+              "name": "Next Year",
+              "expression": "CALCULATE(SELECTEDMEASURE(),NEXTYEAR('Dimension Date'[Date]))",
+              "ordinal": 2
+            }
+          ]
+        },
+        "columns": [
+          {
+            "name": "Annual Metric",
+            "dataType": "string",
+            "sourceColumn": "Name",
+            "sortByColumn": "Sort Order"
+          },
+          {
+            "name": "Sort Order",
+            "dataType": "int64",
+            "sourceColumn": "Ordinal"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "CalculationGroup 1",
+            "mode": "import",
+            "source": {
+              "type": "calculationGroup"
             }
           }
         ]
