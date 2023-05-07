@@ -21,7 +21,7 @@
           "AuthenticationKind": "Windows",
           "kind": "SQL",
           "path": "laptop-va2t4dua\\mssqlserver01;WideWorldImportersDW",
-          "Username": "fox",
+          "Username": "Fox",
           "EncryptConnection": false
         }
       }
@@ -663,7 +663,51 @@
           {
             "name": "% of stock items are Northwind",
             "expression": " COUNT('NorthWind Stock Item'[Stock Item Key]) / COUNT('Dimension Stock Item'[Stock Item Key])",
-            "formatString": "0.00 %;-0.00 %;0.00 %"
+            "formatString": "0.00 %;-0.00 %;0.00 %",
+            "kpi": {
+              "targetExpression": "0,15",
+              "targetFormatString": "0.00 %;-0.00 %;0.00 %",
+              "statusGraphic": "Traffic Light - Single",
+              "statusExpression": [
+                "var x='Dimension Stock Item'[% of stock items are Northwind] return",
+                "            if(ISBLANK(x),BLANK(),",
+                "                    If(x<0.075,-1,",
+                "\t                If(x<0.15,0,1)",
+                "                )",
+                "            )",
+                "            "
+              ],
+              "annotations": [
+                {
+                  "name": "GoalType",
+                  "value": "StaticValue"
+                },
+                {
+                  "name": "KpiStatusType",
+                  "value": "Linear"
+                },
+                {
+                  "name": "KpiThresholdType",
+                  "value": "Absolute"
+                },
+                {
+                  "name": "KpiThresholdOrdering",
+                  "value": "Ascending"
+                },
+                {
+                  "name": "KpiThresholdCount",
+                  "value": "2"
+                },
+                {
+                  "name": "KpiThreshold_0",
+                  "value": "0.075"
+                },
+                {
+                  "name": "KpiThreshold_1",
+                  "value": "0.15"
+                }
+              ]
+            }
           },
           {
             "name": "Chiller stock percentage",
@@ -679,6 +723,19 @@
             "name": "Recommended retail price average",
             "expression": "AVERAGE('Dimension Stock Item'[Recommended Retail Price])",
             "formatString": "0.00"
+          },
+          {
+            "name": "Total items",
+            "expression": "COUNT('Dimension Stock Item'[Stock Item Key])"
+          },
+          {
+            "name": "Total current items",
+            "expression": "COUNTROWS(FILTER('Dimension Stock Item', 'Dimension Stock Item'[Valid To] > TODAY()))"
+          },
+          {
+            "name": "% of stock items are Northwind goal",
+            "expression": "0.15",
+            "formatString": "0.00 %;-0.00 %;0.00 %"
           }
         ],
         "hierarchies": [
@@ -884,11 +941,6 @@
             "formatString": "0.00"
           },
           {
-            "name": "Delivery time average (in days)",
-            "expression": "AVERAGE('Fact Sale'[Delivery Time In Hours]) / 24",
-            "formatString": "0.00"
-          },
-          {
             "name": "Total profit sum",
             "expression": "SUM('Fact Sale'[Profit])",
             "formatString": "0.00"
@@ -903,26 +955,28 @@
             "expression": "TOTALYTD(SUM('Fact Sale'[Profit]), 'Dimension Date'[Date])"
           },
           {
-            "name": "Profit next year",
-            "expression": "CALCULATE(SUM('Fact Sale'[Profit]), NEXTYEAR('Dimension Date'[Date]))"
+            "name": "Chiller items %",
+            "expression": "[Chiller items sum] / ([Dry items sum] + [Chiller items sum])",
+            "formatString": "0.00 %;-0.00 %;0.00 %"
           },
           {
-            "name": "Profit previous year",
-            "expression": "CALCULATE(SUM('Fact Sale'[Profit]), PREVIOUSYEAR('Dimension Date'[Date]))"
+            "name": "Dry items %",
+            "expression": "[Dry items sum] / ([Dry items sum] + [Chiller items sum])",
+            "formatString": "0.00 %;-0.00 %;0.00 %"
           },
           {
-            "name": "% of Northwind items sold",
-            "expression": "'Fact Sale'[Total Northwind items sold] / SUM('Fact Sale'[Quantity])",
-            "formatString": "0.00 %;-0.00 %;0.00 %",
+            "name": "Delivery time average (in hours)",
+            "expression": "AVERAGE('Fact Sale'[Delivery Time In Hours])",
+            "formatString": "0.00",
             "kpi": {
-              "targetExpression": "0,0125",
-              "targetFormatString": "0.00 %;-0.00 %;0.00 %",
+              "targetExpression": "48",
+              "targetFormatString": "0.00",
               "statusGraphic": "Traffic Light - Single",
               "statusExpression": [
-                "var x='Fact Sale'[% of Northwind items sold] return",
+                "var x='Fact Sale'[Delivery time average (in hours)] return",
                 "            if(ISBLANK(x),BLANK(),",
-                "                    If(x<0.011,-1,",
-                "\t                If(x<0.0118,0,1)",
+                "                    If(x<24,-1,",
+                "\t                If(x<36,0,1)",
                 "                )",
                 "            )",
                 "            "
@@ -950,18 +1004,14 @@
                 },
                 {
                   "name": "KpiThreshold_0",
-                  "value": "0.011"
+                  "value": "24"
                 },
                 {
                   "name": "KpiThreshold_1",
-                  "value": "0.0118"
+                  "value": "36"
                 }
               ]
             }
-          },
-          {
-            "name": "Total Northwind items sold",
-            "expression": "SUMX('Fact Sale', IF(RELATED('Dimension Stock Item'[Brand])=\"Northwind\", 'Fact Sale'[Quantity],0))"
           }
         ]
       },
