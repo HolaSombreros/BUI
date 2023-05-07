@@ -11,7 +11,7 @@
         "connectionDetails": {
           "protocol": "tds",
           "address": {
-            "server": "LAPTOP-VA2T4DUA\\MSSQLSERVER01",
+            "server": "DESKTOP-30T6BRV\\DOWSQL2022",
             "database": "WideWorldImportersDW"
           },
           "authentication": null,
@@ -20,8 +20,8 @@
         "credential": {
           "AuthenticationKind": "Windows",
           "kind": "SQL",
-          "path": "laptop-va2t4dua\\mssqlserver01;WideWorldImportersDW",
-          "Username": "Fox",
+          "path": "desktop-30t6brv\\dowsql2022;WideWorldImportersDW",
+          "Username": "DESKTOP-30T6BRV\\Vlad",
           "EncryptConnection": false
         }
       }
@@ -884,15 +884,16 @@
         ],
         "partitions": [
           {
-            "name": "All data",
+            "name": "Before2015",
             "source": {
               "type": "m",
               "expression": [
                 "let",
                 "    Source = #\"SQL/DESKTOP-30T6BRV\\DOWSQL2022;WideWorldImportersDW\",",
-                "    Fact_Sale = Source{[Schema=\"Fact\",Item=\"Sale\"]}[Data]",
+                "    Fact_Sale = Source{[Schema=\"Fact\",Item=\"Sale\"]}[Data],",
+                "    #\"Filtered Rows\" = Table.SelectRows(Fact_Sale, each [Invoice Date Key] < #date(2015, 1, 1))",
                 "in",
-                "    Fact_Sale"
+                "    #\"Filtered Rows\""
               ]
             },
             "annotations": [
@@ -901,9 +902,38 @@
                 "value": [
                   "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>let",
                   "    Source = #\"SQL/DESKTOP-30T6BRV\\DOWSQL2022;WideWorldImportersDW\",",
-                  "    Fact_Sale = Source{[Schema=\"Fact\",Item=\"Sale\"]}[Data]",
+                  "    Fact_Sale = Source{[Schema=\"Fact\",Item=\"Sale\"]}[Data],",
+                  "    #\"Filtered Rows\" = Table.SelectRows(Fact_Sale, each [Invoice Date Key] < #date(2015, 1, 1))",
                   "in",
-                  "    Fact_Sale</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+                  "    #\"Filtered Rows\"</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "After2016",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/DESKTOP-30T6BRV\\DOWSQL2022;WideWorldImportersDW\",",
+                "    Fact_Sale = Source{[Schema=\"Fact\",Item=\"Sale\"]}[Data],",
+                "    #\"Filtered Rows\" = Table.SelectRows(Fact_Sale, each [Invoice Date Key] >= #date(2015, 1, 1))",
+                "in",
+                "    #\"Filtered Rows\""
+              ]
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": [
+                  "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>let",
+                  "    Source = #\"SQL/DESKTOP-30T6BRV\\DOWSQL2022;WideWorldImportersDW\",",
+                  "    Fact_Sale = Source{[Schema=\"Fact\",Item=\"Sale\"]}[Data],",
+                  "    #\"Filtered Rows\" = Table.SelectRows(Fact_Sale, each [Invoice Date Key] >= #date(2015, 1, 1))",
+                  "in",
+                  "    #\"Filtered Rows\"</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
                 ]
               }
             ]
