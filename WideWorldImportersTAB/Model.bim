@@ -21,7 +21,7 @@
           "AuthenticationKind": "Windows",
           "kind": "SQL",
           "path": "laptop-va2t4dua\\mssqlserver01;WideWorldImportersDW",
-          "Username": "fox",
+          "Username": "Fox",
           "EncryptConnection": false
         }
       }
@@ -661,9 +661,53 @@
         ],
         "measures": [
           {
-            "name": "% of stock items are Nortwind",
+            "name": "% of stock items are Northwind",
             "expression": " COUNT('NorthWind Stock Item'[Stock Item Key]) / COUNT('Dimension Stock Item'[Stock Item Key])",
-            "formatString": "0.00 %;-0.00 %;0.00 %"
+            "formatString": "0.00 %;-0.00 %;0.00 %",
+            "kpi": {
+              "targetExpression": "0,15",
+              "targetFormatString": "0.00 %;-0.00 %;0.00 %",
+              "statusGraphic": "Traffic Light - Single",
+              "statusExpression": [
+                "var x='Dimension Stock Item'[% of stock items are Northwind] return",
+                "            if(ISBLANK(x),BLANK(),",
+                "                    If(x<0.075,-1,",
+                "\t                If(x<0.15,0,1)",
+                "                )",
+                "            )",
+                "            "
+              ],
+              "annotations": [
+                {
+                  "name": "GoalType",
+                  "value": "StaticValue"
+                },
+                {
+                  "name": "KpiStatusType",
+                  "value": "Linear"
+                },
+                {
+                  "name": "KpiThresholdType",
+                  "value": "Absolute"
+                },
+                {
+                  "name": "KpiThresholdOrdering",
+                  "value": "Ascending"
+                },
+                {
+                  "name": "KpiThresholdCount",
+                  "value": "2"
+                },
+                {
+                  "name": "KpiThreshold_0",
+                  "value": "0.075"
+                },
+                {
+                  "name": "KpiThreshold_1",
+                  "value": "0.15"
+                }
+              ]
+            }
           },
           {
             "name": "Chiller stock percentage",
@@ -679,6 +723,19 @@
             "name": "Recommended retail price average",
             "expression": "AVERAGE('Dimension Stock Item'[Recommended Retail Price])",
             "formatString": "0.00"
+          },
+          {
+            "name": "Total items",
+            "expression": "COUNT('Dimension Stock Item'[Stock Item Key])"
+          },
+          {
+            "name": "Total current items",
+            "expression": "COUNTROWS(FILTER('Dimension Stock Item', 'Dimension Stock Item'[Valid To] > TODAY()))"
+          },
+          {
+            "name": "% of stock items are Northwind goal",
+            "expression": "0.15",
+            "formatString": "0.00 %;-0.00 %;0.00 %"
           }
         ],
         "hierarchies": [
@@ -827,7 +884,7 @@
         ],
         "partitions": [
           {
-            "name": "Current Partition",
+            "name": "All data",
             "source": {
               "type": "m",
               "expression": [
@@ -853,20 +910,6 @@
           }
         ],
         "measures": [
-          {
-            "name": "test",
-            "expression": " SUMX('Fact Sale', IF(YEAR('Fact Sale'[Invoice Date Key]) = YEAR(TODAY()), 'Fact Sale'[Profit], 0))"
-          },
-          {
-            "name": "Total profit sum",
-            "expression": "SUM('Fact Sale'[Total Including Tax])",
-            "formatString": "0.00"
-          },
-          {
-            "name": "Total profit average",
-            "expression": "AVERAGE('Fact Sale'[Total Including Tax])",
-            "formatString": "0.00"
-          },
           {
             "name": "Quantity sum",
             "expression": "SUM('Fact Sale'[Quantity])",
@@ -898,33 +941,42 @@
             "formatString": "0.00"
           },
           {
-            "name": "Delivery time average (in days)",
-            "expression": "AVERAGE('Fact Sale'[Delivery Time In Hours]) / 24",
+            "name": "Total profit sum",
+            "expression": "SUM('Fact Sale'[Profit])",
             "formatString": "0.00"
           },
           {
-            "name": "Previous yearly profit",
-            "expression": "SUMX('Fact Sale', IF(YEAR('Fact Sale'[Invoice Date Key]) = 2015, 'Fact Sale'[Total Including Tax], 0))",
+            "name": "Total profit average",
+            "expression": "AVERAGE('Fact Sale'[Profit])",
             "formatString": "0.00"
           },
           {
-            "name": "Current yearly profit",
-            "expression": "SUMX('Fact Sale', IF(YEAR('Fact Sale'[Invoice Date Key]) = 2016, 'Fact Sale'[Total Including Tax], 0))",
-            "formatString": "0.00"
+            "name": "Profit YTD",
+            "expression": "TOTALYTD(SUM('Fact Sale'[Profit]), 'Dimension Date'[Date])"
           },
           {
-            "name": "Yearly profit growth",
-            "expression": "([Current Yearly Profit] - [Previous Yearly Profit]) / [Previous Yearly Profit]",
-            "formatString": "0.00 %;-0.00 %;0.00 %",
+            "name": "Chiller items %",
+            "expression": "[Chiller items sum] / ([Dry items sum] + [Chiller items sum])",
+            "formatString": "0.00 %;-0.00 %;0.00 %"
+          },
+          {
+            "name": "Dry items %",
+            "expression": "[Dry items sum] / ([Dry items sum] + [Chiller items sum])",
+            "formatString": "0.00 %;-0.00 %;0.00 %"
+          },
+          {
+            "name": "Delivery time average (in hours)",
+            "expression": "AVERAGE('Fact Sale'[Delivery Time In Hours])",
+            "formatString": "0.00",
             "kpi": {
-              "targetExpression": "5",
-              "targetFormatString": "0.00 %;-0.00 %;0.00 %",
+              "targetExpression": "48",
+              "targetFormatString": "0.00",
               "statusGraphic": "Traffic Light - Single",
               "statusExpression": [
-                "var x='Fact Sale'[Yearly profit growth] return",
+                "var x='Fact Sale'[Delivery time average (in hours)] return",
                 "            if(ISBLANK(x),BLANK(),",
-                "                    If(x<0,-1,",
-                "\t                If(x<2.5,0,1)",
+                "                    If(x<24,-1,",
+                "\t                If(x<36,0,1)",
                 "                )",
                 "            )",
                 "            "
@@ -952,11 +1004,11 @@
                 },
                 {
                   "name": "KpiThreshold_0",
-                  "value": "0"
+                  "value": "24"
                 },
                 {
                   "name": "KpiThreshold_1",
-                  "value": "2.5"
+                  "value": "36"
                 }
               ]
             }
@@ -1436,6 +1488,51 @@
             "source": {
               "type": "calculated",
               "expression": "SUMMARIZECOLUMNS('Dimension Stock Item'[Stock Item], 'Dimension Supplier'[Supplier], \"Items Per Supplier\", COUNT('Fact Purchase'[Stock Item Key]))"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Annual Calculations",
+        "calculationGroup": {
+          "precedence": 25,
+          "calculationItems": [
+            {
+              "name": "YTD",
+              "expression": "CALCULATE(SELECTEDMEASURE(),DATESYTD('Dimension Date'[Date]))",
+              "ordinal": 1
+            },
+            {
+              "name": "Previous Year",
+              "expression": "CALCULATE(SELECTEDMEASURE(),PREVIOUSYEAR('Dimension Date'[Date]))",
+              "ordinal": 3
+            },
+            {
+              "name": "Next Year",
+              "expression": "CALCULATE(SELECTEDMEASURE(),NEXTYEAR('Dimension Date'[Date]))",
+              "ordinal": 2
+            }
+          ]
+        },
+        "columns": [
+          {
+            "name": "Annual Metric",
+            "dataType": "string",
+            "sourceColumn": "Name",
+            "sortByColumn": "Sort Order"
+          },
+          {
+            "name": "Sort Order",
+            "dataType": "int64",
+            "sourceColumn": "Ordinal"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "CalculationGroup 1",
+            "mode": "import",
+            "source": {
+              "type": "calculationGroup"
             }
           }
         ]
