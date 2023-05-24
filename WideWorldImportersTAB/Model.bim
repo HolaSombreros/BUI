@@ -884,14 +884,14 @@
         ],
         "partitions": [
           {
-            "name": "Before2015",
+            "name": "Before2016",
             "source": {
               "type": "m",
               "expression": [
                 "let",
                 "    Source = #\"SQL/DESKTOP-30T6BRV\\DOWSQL2022;WideWorldImportersDW\",",
                 "    Fact_Sale = Source{[Schema=\"Fact\",Item=\"Sale\"]}[Data],",
-                "    #\"Filtered Rows\" = Table.SelectRows(Fact_Sale, each [Invoice Date Key] < #date(2015, 1, 1))",
+                "    #\"Filtered Rows\" = Table.SelectRows(Fact_Sale, each [Invoice Date Key] < #date(2016, 1, 1))",
                 "in",
                 "    #\"Filtered Rows\""
               ]
@@ -903,7 +903,7 @@
                   "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>let",
                   "    Source = #\"SQL/DESKTOP-30T6BRV\\DOWSQL2022;WideWorldImportersDW\",",
                   "    Fact_Sale = Source{[Schema=\"Fact\",Item=\"Sale\"]}[Data],",
-                  "    #\"Filtered Rows\" = Table.SelectRows(Fact_Sale, each [Invoice Date Key] < #date(2015, 1, 1))",
+                  "    #\"Filtered Rows\" = Table.SelectRows(Fact_Sale, each [Invoice Date Key] < #date(2016, 1, 1))",
                   "in",
                   "    #\"Filtered Rows\"</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
                 ]
@@ -911,7 +911,7 @@
             ]
           },
           {
-            "name": "After2016",
+            "name": "2016AndAfter",
             "mode": "import",
             "source": {
               "type": "m",
@@ -919,7 +919,7 @@
                 "let",
                 "    Source = #\"SQL/DESKTOP-30T6BRV\\DOWSQL2022;WideWorldImportersDW\",",
                 "    Fact_Sale = Source{[Schema=\"Fact\",Item=\"Sale\"]}[Data],",
-                "    #\"Filtered Rows\" = Table.SelectRows(Fact_Sale, each [Invoice Date Key] >= #date(2015, 1, 1))",
+                "    #\"Filtered Rows\" = Table.SelectRows(Fact_Sale, each [Invoice Date Key] >= #date(2016, 1, 1))",
                 "in",
                 "    #\"Filtered Rows\""
               ]
@@ -931,7 +931,7 @@
                   "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>let",
                   "    Source = #\"SQL/DESKTOP-30T6BRV\\DOWSQL2022;WideWorldImportersDW\",",
                   "    Fact_Sale = Source{[Schema=\"Fact\",Item=\"Sale\"]}[Data],",
-                  "    #\"Filtered Rows\" = Table.SelectRows(Fact_Sale, each [Invoice Date Key] >= #date(2015, 1, 1))",
+                  "    #\"Filtered Rows\" = Table.SelectRows(Fact_Sale, each [Invoice Date Key] >= #date(2016, 1, 1))",
                   "in",
                   "    #\"Filtered Rows\"</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
                 ]
